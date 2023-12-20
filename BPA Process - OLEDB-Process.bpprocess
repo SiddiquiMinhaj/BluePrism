@@ -1,0 +1,461 @@
+﻿<process name="OLEDB-Process" version="1.0" bpversion="7.2.1.7446" narrative="" byrefcollection="true" processrunningmessage="" disableversioning="false" preferredid="0edc53c6-ac4e-4d96-bb88-f3d5c5a77d7d">
+  <view>
+    <camerax>0</camerax>
+    <cameray>0</cameray>
+    <zoom version="2">1.25</zoom>
+  </view>
+  <preconditions />
+  <endpoint narrative="" />
+  <subsheet subsheetid="e51bf9ee-2833-4e0f-9892-ece64b052031" type="Normal" published="False">
+    <name>BulkDataRead</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>-12</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="b596095d-9967-4b0b-afe2-73fbe3c9ce80" type="Normal" published="False">
+    <name>splitWorksheet</name>
+    <view>
+      <camerax>-1.35998535</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.5625</zoom>
+    </view>
+  </subsheet>
+  <stage stageid="48ebcea9-469d-4924-8b06-a1e4fb9678fe" name="Start" type="Start">
+    <display x="15" y="-105" />
+    <onsuccess>897eb299-dc25-41d9-85bd-03ec47bfecc1</onsuccess>
+  </stage>
+  <stage stageid="9168a0c8-db78-4fb1-9a42-6b9423ccf3e9" name="End" type="End">
+    <display x="270" y="15" />
+  </stage>
+  <stage stageid="0a25ede0-0555-474e-bd9b-63e183fac44c" name="Stage1" type="ProcessInfo">
+    <display x="-585" y="-240" w="150" h="90" />
+  </stage>
+  <stage stageid="897eb299-dc25-41d9-85bd-03ec47bfecc1" name="SetConnection" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-45" />
+    <inputs>
+      <input type="text" name="Database" friendlyname="Database" narrative="Optional. The path to the oledb database file" expr="" />
+      <input type="password" name="Password" friendlyname="Password" narrative="Optional. The password if required to open the oledb database." expr="" />
+      <input type="text" name="Provider" friendlyname="Provider" narrative="Optional. Allows the database provider to be overridden." expr="" />
+      <input type="text" name="Connection String" friendlyname="Connection String" narrative="Optional. Allows the full connection string to be provided. If supplying this parameter no other parameters are required." expr="&quot;Provider=Microsoft.ACE.OLEDB.12.0;&#xA;Data Source=&quot;&amp;[Data]&amp;&quot;;&#xA;Extended Properties=&quot;&quot;Excel 12.0 Xml;&#xA;HDR=YES;&quot;&quot;&quot;&#xA;" />
+    </inputs>
+    <onsuccess>0e54838a-0568-4759-99d3-ce09a1905abe</onsuccess>
+    <resource object="Data - OLEDB" action="Set Connection" />
+  </stage>
+  <stage stageid="e69675c0-88f9-4f18-81b4-1c7d2fe37d2c" name="Data" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-450" y="-15" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">"D:\BluePrism Apps\close out.xlsx"</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="0e54838a-0568-4759-99d3-ce09a1905abe" name="Data - OLEDB::Open" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="15" />
+    <onsuccess>99ce640c-c776-40dc-9378-b0cf7a4bb8e6</onsuccess>
+    <resource object="Data - OLEDB" action="Open" />
+  </stage>
+  <stage stageid="99ce640c-c776-40dc-9378-b0cf7a4bb8e6" name="Data - OLEDB::Get Collection" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="75" />
+    <inputs>
+      <input type="text" name="SQL" friendlyname="SQL" narrative="An SQL query to fetch the data. In most cases this will be a 'select' query." expr="&quot;select * from [Sheet1$]&quot;" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Results" friendlyname="Results" stage="Results" />
+    </outputs>
+    <onsuccess>a0547311-60d3-4104-87c2-edcf99e7f76b</onsuccess>
+    <resource object="Data - OLEDB" action="Get Collection" />
+  </stage>
+  <stage stageid="5e65338f-bf44-4f00-a857-c098f4844c8b" name="Results" type="Collection">
+    <display x="-345" y="-15" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="a0547311-60d3-4104-87c2-edcf99e7f76b" name="Data - OLEDB::Execute" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="135" />
+    <inputs>
+      <input type="text" name="SQL" friendlyname="SQL" expr="&quot;Insert into [Sheet1$] values (100,200,300)&quot;" />
+    </inputs>
+    <onsuccess>b7222073-9cd8-4708-92d8-6b790fb822f3</onsuccess>
+    <resource object="Data - OLEDB" action="Execute" />
+  </stage>
+  <stage stageid="b7222073-9cd8-4708-92d8-6b790fb822f3" name="Data - OLEDB::Close" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="120" y="135" />
+    <onsuccess>9168a0c8-db78-4fb1-9a42-6b9423ccf3e9</onsuccess>
+    <resource object="Data - OLEDB" action="Close" />
+  </stage>
+  <stage stageid="d8dd400b-c306-416d-bbc3-84730406bb9b" name="BulkDataRead" type="SubSheetInfo">
+    <subsheetid>e51bf9ee-2833-4e0f-9892-ece64b052031</subsheetid>
+    <display x="-405" y="-165" w="150" h="90" />
+  </stage>
+  <stage stageid="9bd0b566-4e36-4f3f-a8ce-d791da36dd7e" name="Start" type="Start">
+    <subsheetid>e51bf9ee-2833-4e0f-9892-ece64b052031</subsheetid>
+    <display x="90" y="-240" />
+    <onsuccess>a5bdeb1f-e6b3-4578-9e68-aaaa6daca8d2</onsuccess>
+  </stage>
+  <stage stageid="0772e33e-20f0-46a5-a4a9-3f4dfd045f8f" name="End" type="End">
+    <subsheetid>e51bf9ee-2833-4e0f-9892-ece64b052031</subsheetid>
+    <display x="90" y="150" />
+  </stage>
+  <stage stageid="b56100b5-f1c9-4d2c-9940-eb3b622fb691" name="Data - OLEDB::Open" type="Action">
+    <subsheetid>e51bf9ee-2833-4e0f-9892-ece64b052031</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="90" y="-120" />
+    <onsuccess>d54fa1fb-9205-4334-8afa-9af7f87de2f1</onsuccess>
+    <resource object="Data - OLEDB" action="Open" />
+  </stage>
+  <stage stageid="d54fa1fb-9205-4334-8afa-9af7f87de2f1" name="Data - OLEDB::Get Collection" type="Action">
+    <subsheetid>e51bf9ee-2833-4e0f-9892-ece64b052031</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="90" y="-60" />
+    <inputs>
+      <input type="text" name="SQL" friendlyname="SQL" narrative="An SQL query to fetch the data. In most cases this will be a 'select' query." expr="&quot;select TOP 1000 * from [Sheet1$]&quot;" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Results" friendlyname="Results" stage="Results" />
+    </outputs>
+    <onsuccess>51d75727-412e-4f5d-b946-da5d1263ada1</onsuccess>
+    <resource object="Data - OLEDB" action="Get Collection" />
+  </stage>
+  <stage stageid="51d75727-412e-4f5d-b946-da5d1263ada1" name="Data - OLEDB::Close" type="Action">
+    <subsheetid>e51bf9ee-2833-4e0f-9892-ece64b052031</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="90" y="90" />
+    <onsuccess>0772e33e-20f0-46a5-a4a9-3f4dfd045f8f</onsuccess>
+    <resource object="Data - OLEDB" action="Close" />
+  </stage>
+  <stage stageid="a5bdeb1f-e6b3-4578-9e68-aaaa6daca8d2" name="Data - OLEDB::Set Connection" type="Action">
+    <subsheetid>e51bf9ee-2833-4e0f-9892-ece64b052031</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="90" y="-180" />
+    <inputs>
+      <input type="text" name="Database" friendlyname="Database" narrative="Optional. The path to the oledb database file" expr="" />
+      <input type="password" name="Password" friendlyname="Password" narrative="Optional. The password if required to open the oledb database." expr="" />
+      <input type="text" name="Provider" friendlyname="Provider" narrative="Optional. Allows the database provider to be overridden." expr="" />
+      <input type="text" name="Connection String" friendlyname="Connection String" narrative="Optional. Allows the full connection string to be provided. If supplying this parameter no other parameters are required." expr="&quot;Provider=Microsoft.ACE.OLEDB.12.0;&#xA;Data Source=&quot;&amp;[Data]&amp;&quot;;&#xA;Extended Properties=&quot;&quot;Excel 12.0 Xml;&#xA;HDR=YES;&quot;&quot;&quot;&#xA;" />
+    </inputs>
+    <onsuccess>b56100b5-f1c9-4d2c-9940-eb3b622fb691</onsuccess>
+    <resource object="Data - OLEDB" action="Set Connection" />
+  </stage>
+  <stage stageid="39e216d1-4912-4169-a249-6c16995789ba" name="Data" type="Data">
+    <subsheetid>e51bf9ee-2833-4e0f-9892-ece64b052031</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-360" y="0" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">"D:\BluePrism Apps\BulkData.xlsx"</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="18999627-6a03-4168-94fa-f3bfa2b1d146" name="Results" type="Collection">
+    <subsheetid>e51bf9ee-2833-4e0f-9892-ece64b052031</subsheetid>
+    <display x="-480" y="0" w="150" h="60" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="722f6f3f-33a1-4bef-8d34-bbba632e2a69" name="AllData" type="Collection">
+    <subsheetid>e51bf9ee-2833-4e0f-9892-ece64b052031</subsheetid>
+    <display x="-450" y="120" w="240" h="90" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="79f855fd-3497-46d7-8f1c-ac71508d66ae" name="Action1" type="Action">
+    <subsheetid>e51bf9ee-2833-4e0f-9892-ece64b052031</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-195" y="-105" />
+    <resource object="" action="" />
+  </stage>
+  <stage stageid="b779a799-7442-44bc-8014-0cdb902cf7e7" name="splitWorksheet" type="SubSheetInfo">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <display x="-495" y="-180" w="150" h="90" />
+  </stage>
+  <stage stageid="36339d84-9657-4bd4-ac24-00282eed1806" name="Start" type="Start">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <display x="-90" y="-210" />
+    <onsuccess>4e4166d6-a2df-4a5d-bf49-410223b8afe5</onsuccess>
+  </stage>
+  <stage stageid="153a425c-f294-4c45-baab-501ef5e0b01d" name="End" type="End">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <display x="-90" y="210" />
+  </stage>
+  <stage stageid="4e4166d6-a2df-4a5d-bf49-410223b8afe5" name="MS Excel VBO::Create Instance" type="Action">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-90" y="-165" />
+    <inputs>
+      <input type="flag" name="Enable Events" friendlyname="Enable Events" narrative="Flag to indicate that events should be enabled / disabled on the attached instance - defaulted to True" expr="" />
+    </inputs>
+    <outputs>
+      <output type="number" name="handle" friendlyname="handle" narrative="An integer which can be used to identify the created instance in subsequent actions" stage="handle" />
+    </outputs>
+    <onsuccess>57b01b09-5836-41af-9c09-786eabe86071</onsuccess>
+    <resource object="MS Excel VBO" action="Create Instance" />
+  </stage>
+  <stage stageid="2224b4e3-fb55-480b-8285-117af56202ed" name="handle" type="Data">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <display x="-270" y="60" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="57b01b09-5836-41af-9c09-786eabe86071" name="MS Excel VBO::Open Workbook" type="Action">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-90" y="-75" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the required workbook should be opened. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="File name" friendlyname="File name" narrative="The path and name of the file which should be opened." expr="&quot;D:\BluePrism Apps\Excel\Chunk2.xlsx&quot;" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name used by Excel to identify the workbook - usually this is the file name (without the path)." stage="Workbook Name" />
+    </outputs>
+    <onsuccess>d2433bc1-8000-452e-907d-29ae9359e36a</onsuccess>
+    <resource object="MS Excel VBO" action="Open Workbook" />
+  </stage>
+  <stage stageid="ba56e6ca-2a78-4a09-ad38-08dec9618066" name="Workbook Name" type="Data">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <display x="-360" y="60" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="d2433bc1-8000-452e-907d-29ae9359e36a" name="MS Excel VBO::Split Worksheet" type="Action">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="90" y="-75" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the worksheet which should be retrieved resides. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="number" name="Rows per worksheet" friendlyname="Rows per worksheet" narrative="The number of rows which should appear in each worksheet. Zero indicates all rows." expr="[Data1]" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook within the specified instance which contains the sheet to be split. The default empty text indicates the currently active workbook within the specified instance should be used." expr="[Workbook Name]" />
+      <input type="text" name="Worksheet Name" friendlyname="Worksheet Name" narrative="The name of the worksheet within the specified workbook to split - The default empty value indicates that the currently active sheet within the workbook should be used." expr="&quot;Sheet1&quot;" />
+      <input type="flag" name="No Title Row" friendlyname="No Title Row" narrative="True to indicate that the rows should just be split across without using the first row as a title row (ie. as a list of column headers). False to indicate that the first row contains the column headers which should be replicated across all generated sheets." expr="[title]" />
+      <input type="text" name="Path" friendlyname="Path" narrative="The path to the directory in which the generated workbooks should be created. The files will be created with a name of &quot;{Workbook Name}_SECTION_nnnn&quot;, where nnnn is an number incrementing with each section generated." expr="&quot;D:\BluePrism Apps\Excel\Split&quot;" />
+    </inputs>
+    <onsuccess>f4b4fab6-4f2d-4e0a-8042-56e1f25161ed</onsuccess>
+    <resource object="MS Excel VBO" action="Split Worksheet" />
+  </stage>
+  <stage stageid="ec2cb152-b89b-4005-a955-ec727eb260d8" name="Data1" type="Data">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-360" y="15" />
+    <datatype>number</datatype>
+    <initialvalue>7</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="6d9d2d60-572f-4675-9cbe-b770018458cb" name="title" type="Data">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <display x="-270" y="15" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="f4b4fab6-4f2d-4e0a-8042-56e1f25161ed" name="Utility - File Management::Get Files" type="Action">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="195" y="-75" />
+    <inputs>
+      <input type="text" name="Folder" friendlyname="Folder" narrative="The folder in which to look for files" expr="&quot;D:\BluePrism Apps\Excel\Split&quot;" />
+      <input type="text" name="Patterns CSV" friendlyname="Patterns CSV" narrative="The comma seperated list of wildcard patterns" expr="&quot;*.xls&quot;" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" friendlyname="Success" narrative="True if successful" stage="Success" />
+      <output type="text" name="Message" friendlyname="Message" narrative="A message if unsuccessful" stage="Message" />
+      <output type="collection" name="Files" friendlyname="Files" narrative="The collection of files found" stage="Files" />
+    </outputs>
+    <onsuccess>b518087c-7e2b-48f1-b413-2ad7368aac4b</onsuccess>
+    <resource object="Utility - File Management" action="Get Files" />
+  </stage>
+  <stage stageid="19545f0e-05bd-4787-89dd-8f18ee4d8733" name="Success" type="Data">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <display x="-330" y="180" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="abf8f04e-4d29-4130-90f3-2edbfadbd415" name="Message" type="Data">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <display x="-285" y="120" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="e574f782-467b-48b9-aa25-6b1b6a316cee" name="Files" type="Collection">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <display x="-360" y="120" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="b518087c-7e2b-48f1-b413-2ad7368aac4b" name="Loop Start1" type="LoopStart">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="285" y="-75" />
+    <onsuccess>78f7cd2d-0c46-406d-8966-c8de095c095f</onsuccess>
+    <groupid>e99d6466-6e54-4721-b696-af510e149e25</groupid>
+    <looptype>ForEach</looptype>
+    <loopdata>Files</loopdata>
+  </stage>
+  <stage stageid="97d6eff6-9fd3-4aee-9fb1-dcd0d9a32197" name="Loop End1" type="LoopEnd">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-90" y="150" />
+    <onsuccess>153a425c-f294-4c45-baab-501ef5e0b01d</onsuccess>
+    <breakpoint type="0">
+      <condition>
+      </condition>
+    </breakpoint>
+    <groupid>e99d6466-6e54-4721-b696-af510e149e25</groupid>
+  </stage>
+  <stage stageid="bf004ded-3ce0-444b-b6e5-44ccd8877967" name="Utility - File Management::Move File" type="Action">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-90" y="90" />
+    <inputs>
+      <input type="text" name="File Path" friendlyname="File Path" narrative="The full path to the file to move" expr="[Files.Path]" />
+      <input type="text" name="Destination Path" friendlyname="Destination Path" narrative="The path to the folder to move the file to" expr="&quot;D:\BluePrism Apps\Excel\Archive&quot; &amp; &quot;\&quot; &amp; Replace([Files.Name], &quot;.xls&quot;, &quot;&quot;)&amp;&quot;_&quot;&amp; FormatDateTime(Now(), &quot;dd-M-yyyy HH-MM&quot;)&amp;[Files.Extension]" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" friendlyname="Success" narrative="True if successful" stage="MoveSuccess" />
+      <output type="text" name="Message" friendlyname="Message" narrative="An error message if unsuccessful" stage="MoveMessage" />
+    </outputs>
+    <onsuccess>97d6eff6-9fd3-4aee-9fb1-dcd0d9a32197</onsuccess>
+    <resource object="Utility - File Management" action="Move File" />
+  </stage>
+  <stage stageid="78f7cd2d-0c46-406d-8966-c8de095c095f" name="MS Excel VBO::Create Instance" type="Action">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="405" y="-75" />
+    <inputs>
+      <input type="flag" name="Enable Events" friendlyname="Enable Events" narrative="Flag to indicate that events should be enabled / disabled on the attached instance - defaulted to True" expr="" />
+    </inputs>
+    <outputs>
+      <output type="number" name="handle" friendlyname="handle" narrative="An integer which can be used to identify the created instance in subsequent actions" stage="SplitHandle" />
+    </outputs>
+    <onsuccess>6d392039-d507-4544-89e0-0d577fa27798</onsuccess>
+    <resource object="MS Excel VBO" action="Create Instance" />
+  </stage>
+  <stage stageid="ac408553-baf0-4cd9-af6c-c3e59efa4d42" name="SplitHandle" type="Data">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <display x="-345" y="-120" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="6d392039-d507-4544-89e0-0d577fa27798" name="MS Excel VBO::Open Workbook" type="Action">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="405" y="-15" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the required workbook should be opened. The default of zero indicates the currently active instance." expr="[SplitHandle]" />
+      <input type="text" name="File name" friendlyname="File name" narrative="The path and name of the file which should be opened." expr="[Files.Path]" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name used by Excel to identify the workbook - usually this is the file name (without the path)." stage="Path Workbook Name" />
+    </outputs>
+    <onsuccess>466834d8-76bd-404e-a90a-bd6c31824c01</onsuccess>
+    <resource object="MS Excel VBO" action="Open Workbook" />
+  </stage>
+  <stage stageid="35d7d8ae-91ea-4a6c-ab2d-9497ee9eb392" name="Path Workbook Name" type="Data">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <display x="-255" y="-120" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="466834d8-76bd-404e-a90a-bd6c31824c01" name="MS Excel VBO::Get Worksheet As Collection (Fast)" type="Action">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="405" y="30" />
+    <outputs>
+      <output type="collection" name="Data" friendlyname="Data" narrative="The data output" stage="CollectionPathData" />
+    </outputs>
+    <onsuccess>f3329d32-bca1-420b-bf0a-6ee8e900e783</onsuccess>
+    <resource object="MS Excel VBO" action="Get Worksheet As Collection (Fast)" />
+  </stage>
+  <stage stageid="ee4991a4-4bd6-4312-8124-34cc77cff2d0" name="CollectionPathData" type="Collection">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <display x="-300" y="-75" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="f3329d32-bca1-420b-bf0a-6ee8e900e783" name="Work Queues::Add To Queue" type="Action">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <loginhibit onsuccess="true" />
+    <narrative>The Data collection contains the items to be added to the queue. The collection may contain single or multiple rows, with each representing an item to be added.
+
+If there is a failure during the process, the queue will be unchanged - i.e. no rows will be loaded even if the error occurred on the last one.
+
+If Defer Until is specified, the items will not be available to be worked until then. Otherwise, they are available immediately.
+
+If the queue has a key field defined, an item added has key data longer than the maximum permitted 255 characters, an error will occur</narrative>
+    <display x="405" y="90" />
+    <inputs>
+      <input type="text" name="Queue Name" friendlyname="Queue Name" narrative="The name of the queue to add items to" expr="&quot;DefferQueue&quot;" />
+      <input type="collection" name="Data" friendlyname="Data" narrative="A collection containing the data, one row for each item to be added" expr="[CollectionPathData]" />
+      <input type="datetime" name="Defer Until" friendlyname="Defer Until" narrative="Optionally, the date/time the new item(s) should be deferred until" expr="" />
+      <input type="number" name="Priority" friendlyname="Priority" narrative="Optionally, the priority for the new item(s). Lower numbers represent higher priorities. The default is 0." expr="" />
+      <input type="text" name="Tags" friendlyname="Tags" narrative="Optionally, a semi-colon-separated set of tags to apply to the queue item(s)" expr="" />
+      <input type="text" name="Status" friendlyname="Status" narrative="Optionally, the initial status required of the work queue item(s) " expr="&quot;Pending&quot;" />
+      <input type="number" name="Batch Size" friendlyname="Batch Size" narrative="Optionally, the batch size to use when adding many items to the queue.  A Value of 0 will process all items in one batch.  An empty field will use the default batch size of 1000." expr="">
+        <validator type="BluePrism.AutomateProcessCore.RangeParameterValidation" parameter="0:25000" />
+      </input>
+    </inputs>
+    <outputs>
+      <output type="collection" name="Item IDs" friendlyname="Item IDs" narrative="The IDs of the items which have been added to the queue, in the order of the collection of data passed that was input" stage="" />
+    </outputs>
+    <onsuccess>13cc3c66-e3e4-4c73-a1f0-0c4b7a56e0a7</onsuccess>
+    <resource object="Blueprism.Automate.clsWorkQueuesActions" action="Add To Queue" />
+  </stage>
+  <stage stageid="5f58403e-9b7b-41ca-920e-94d223b87eb4" name="MoveMessage" type="Data">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <display x="-255" y="-165" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="9c0bb4b2-7075-4372-a0ff-3e4d394b6c0d" name="MoveSuccess" type="Data">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <display x="-345" y="-165" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="13cc3c66-e3e4-4c73-a1f0-0c4b7a56e0a7" name="MS Excel VBO::Close All Instances" type="Action">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="300" y="90" />
+    <onsuccess>bf004ded-3ce0-444b-b6e5-44ccd8877967</onsuccess>
+    <resource object="MS Excel VBO" action="Close All Instances" />
+  </stage>
+  <stage stageid="f463d936-7187-48a8-aea3-328995e40a84" name="Block1" type="Block">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-390" y="-210" w="180" h="165" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="a91e3360-4040-4406-a5c4-53f83a9087b3" name="Block2" type="Block">
+    <subsheetid>b596095d-9967-4b0b-afe2-73fbe3c9ce80</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-405" y="-15" w="180" h="225" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+</process>

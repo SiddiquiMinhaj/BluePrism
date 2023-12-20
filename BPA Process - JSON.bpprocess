@@ -1,0 +1,432 @@
+﻿<process name="JSON" version="1.0" bpversion="7.2.1.7446" narrative="" byrefcollection="true" processrunningmessage="" disableversioning="false" preferredid="b11205f7-3490-4c3f-98dd-72865ebc9ea7">
+  <view>
+    <camerax>0</camerax>
+    <cameray>0</cameray>
+    <zoom version="2">1.25</zoom>
+  </view>
+  <preconditions />
+  <endpoint narrative="" />
+  <subsheet subsheetid="46e49774-7427-457f-ab22-bfafdabdcbdb" type="Normal" published="False">
+    <name>API</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="00502c5f-6637-4e28-9faa-7780984a6bc7" type="Normal" published="False">
+    <name>exchangeAPI</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="7c555395-4298-46b9-9872-814449bd550a" type="Normal" published="False">
+    <name>chatGPT</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>29</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="2255f333-5539-41c5-9f2d-ba8b98291962" type="Normal" published="False">
+    <name>Page 4</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <stage stageid="09eca4d3-ee08-4b0a-9a71-08c28cf6746c" name="Start" type="Start">
+    <display x="15" y="-210" />
+    <onsuccess>191609f6-b391-4b36-8ce1-a238f7639949</onsuccess>
+  </stage>
+  <stage stageid="8739184f-ca7d-4666-ac8c-8bba521f4e5f" name="End" type="End">
+    <display x="15" y="165" />
+  </stage>
+  <stage stageid="055e29ef-b402-46fa-8aee-e406b88533a7" name="Stage1" type="ProcessInfo">
+    <display x="-495" y="-225" w="150" h="90" />
+  </stage>
+  <stage stageid="9025843d-ee7e-455e-a1bd-87a270746190" name="Utility - JSON::JSON to Collection" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-45" />
+    <inputs>
+      <input type="text" name="json" friendlyname="json" expr="[JsonSample]" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Result" friendlyname="Result" stage="Result2" />
+    </outputs>
+    <onsuccess>b77213d8-df15-4c9f-a302-ff4a6cc74dd6</onsuccess>
+    <resource object="Utility - JSON" action="JSON to Collection" />
+  </stage>
+  <stage stageid="22b526b6-1dc7-4557-9334-5a328638835b" name="JsonSample" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="480" y="-60" w="300" h="120" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">{
+  "student": [
+    {"Rno": 1, "Name": "Raj", "Percentage": 92},
+    {"Rno": 2, "Name": "Vijay", "Percentage": 78},
+    {"Rno": 3, "Name": "Jay", "Percentage": 88},
+    {"Rno": 4, "Name": "Sam", "Percentage": 80}
+  ]
+}
+</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="02d7a629-abbe-4753-90c9-ad0e99a9dc6d" name="Converted" type="Collection">
+    <display x="510" y="-165" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="b77213d8-df15-4c9f-a302-ff4a6cc74dd6" name="Utility - JSON::Collection to JSON" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="30" />
+    <inputs>
+      <input type="collection" name="Data" friendlyname="Data" expr="[Result]" />
+    </inputs>
+    <outputs>
+      <output type="text" name="JSON" friendlyname="JSON" stage="JSON-Converted" />
+    </outputs>
+    <onsuccess>8739184f-ca7d-4666-ac8c-8bba521f4e5f</onsuccess>
+    <resource object="Utility - JSON" action="Collection to JSON" />
+  </stage>
+  <stage stageid="769d6af4-267f-403f-8a37-64597428e300" name="JSON-Converted" type="Data">
+    <display x="120" y="30" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="191609f6-b391-4b36-8ce1-a238f7639949" name="Utility - JSON::JSON to Collection (skipping JArray)" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-120" />
+    <inputs>
+      <input type="text" name="json" friendlyname="json" expr="[JsonSample]" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Result" friendlyname="Result" stage="Result" />
+    </outputs>
+    <onsuccess>9025843d-ee7e-455e-a1bd-87a270746190</onsuccess>
+    <resource object="Utility - JSON" action="JSON to Collection (skipping JArray)" />
+  </stage>
+  <stage stageid="f6b6d390-81d6-4b65-8daf-e561fab13576" name="Result" type="Collection">
+    <display x="120" y="-120" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="a7789463-93ab-42f5-a653-00daca9c206a" name="Result2" type="Collection">
+    <display x="120" y="-45" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="5bb72278-40dd-423d-bb28-960be4e5ecc5" name="API" type="SubSheetInfo">
+    <subsheetid>46e49774-7427-457f-ab22-bfafdabdcbdb</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="301eef91-2a82-4fba-a2eb-0999b386cb9f" name="Start" type="Start">
+    <subsheetid>46e49774-7427-457f-ab22-bfafdabdcbdb</subsheetid>
+    <display x="15" y="-105" />
+    <onsuccess>22dcfa00-a43e-451c-b746-e9083144f97c</onsuccess>
+  </stage>
+  <stage stageid="5bc54f26-330f-4c2c-a709-93c8ce83417b" name="End" type="End">
+    <subsheetid>46e49774-7427-457f-ab22-bfafdabdcbdb</subsheetid>
+    <display x="15" y="90" />
+  </stage>
+  <stage stageid="22dcfa00-a43e-451c-b746-e9083144f97c" name="Weather forecast::Get 16 days weather forecast data" type="Action">
+    <subsheetid>46e49774-7427-457f-ab22-bfafdabdcbdb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-15" />
+    <inputs>
+      <input type="text" name="city" friendlyname="city" expr="[City]" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Response Content" friendlyname="Response Content" stage="Response Content" />
+      <output type="text" name="HTTP Status Code" friendlyname="HTTP Status Code" stage="HTTP Status Code" />
+      <output type="collection" name="Response Headers" friendlyname="Response Headers" stage="Response Headers" />
+      <output type="text" name="Request Data" friendlyname="Request Data" stage="Request Data" />
+    </outputs>
+    <onsuccess>5bc54f26-330f-4c2c-a709-93c8ce83417b</onsuccess>
+    <resource object="Weather forecast" action="Get weather data " />
+  </stage>
+  <stage stageid="239f470c-aa7d-41e2-a991-7c931049f713" name="exchangeAPI" type="SubSheetInfo">
+    <subsheetid>00502c5f-6637-4e28-9faa-7780984a6bc7</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="d4b9771c-ad8d-45d3-8002-9b098505a490" name="Start" type="Start">
+    <subsheetid>00502c5f-6637-4e28-9faa-7780984a6bc7</subsheetid>
+    <display x="15" y="-105" />
+    <onsuccess>2f8c822d-9472-4838-9900-5404bab4543c</onsuccess>
+  </stage>
+  <stage stageid="43c7bff1-8aaa-4b7b-9745-ddc3ba1d1e2a" name="End" type="End">
+    <subsheetid>00502c5f-6637-4e28-9faa-7780984a6bc7</subsheetid>
+    <display x="15" y="90" />
+  </stage>
+  <stage stageid="2f8c822d-9472-4838-9900-5404bab4543c" name="Currecny Excahnge API::Get Exchange" type="Action">
+    <subsheetid>00502c5f-6637-4e28-9faa-7780984a6bc7</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-30" />
+    <inputs>
+      <input type="text" name="from" friendlyname="from" expr="[FROM]" />
+      <input type="text" name="to" friendlyname="to" expr="[TO]" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Response Content" friendlyname="Response Content" stage="Response Content" />
+      <output type="text" name="HTTP Status Code" friendlyname="HTTP Status Code" stage="HTTP Status Code" />
+      <output type="collection" name="Response Headers" friendlyname="Response Headers" stage="Response Headers" />
+      <output type="text" name="Request Data" friendlyname="Request Data" stage="Request Data" />
+    </outputs>
+    <onsuccess>43c7bff1-8aaa-4b7b-9745-ddc3ba1d1e2a</onsuccess>
+    <resource object="Currecny Excahnge API" action="Get Exchange" />
+  </stage>
+  <stage stageid="abf30c28-0e68-411a-889a-954b071140fd" name="Response Content" type="Data">
+    <subsheetid>00502c5f-6637-4e28-9faa-7780984a6bc7</subsheetid>
+    <display x="435" y="30" w="120" h="60" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="18ec4df0-1af4-45cc-b40f-c7aeef1650ff" name="HTTP Status Code" type="Data">
+    <subsheetid>00502c5f-6637-4e28-9faa-7780984a6bc7</subsheetid>
+    <display x="435" y="135" w="120" h="60" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="b4dbd1a5-6182-4803-8dab-2a91e2bbf7b1" name="Response Headers" type="Collection">
+    <subsheetid>00502c5f-6637-4e28-9faa-7780984a6bc7</subsheetid>
+    <display x="435" y="-150" w="150" h="60" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="b2b0dc9f-9287-400a-9fd5-0760295c4e7e" name="Request Data" type="Data">
+    <subsheetid>00502c5f-6637-4e28-9faa-7780984a6bc7</subsheetid>
+    <display x="435" y="-60" w="120" h="60" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="d6000535-017a-4f04-876e-9ac9d4190d63" name="Block1" type="Block">
+    <subsheetid>00502c5f-6637-4e28-9faa-7780984a6bc7</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="360" y="-225" w="150" h="420" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="66da93e0-b65f-4c1d-8e17-3a30961c414b" name="FROM" type="Data">
+    <subsheetid>00502c5f-6637-4e28-9faa-7780984a6bc7</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-405" y="0" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">"USD"</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="6b375519-4659-49bf-8683-f3c7898b09bc" name="TO" type="Data">
+    <subsheetid>00502c5f-6637-4e28-9faa-7780984a6bc7</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-420" y="60" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">"INR"</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="275f2076-5177-4c21-bde2-592bc1c9595f" name="City" type="Data">
+    <subsheetid>46e49774-7427-457f-ab22-bfafdabdcbdb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-525" y="-120" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">London</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="22b2e3d6-79fd-4ae3-9c2e-46e28d4b700e" name="Response Content" type="Data">
+    <subsheetid>46e49774-7427-457f-ab22-bfafdabdcbdb</subsheetid>
+    <display x="225" y="-75" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="a49288a4-11e6-4913-a12e-38d7e01ab770" name="HTTP Status Code" type="Data">
+    <subsheetid>46e49774-7427-457f-ab22-bfafdabdcbdb</subsheetid>
+    <display x="225" y="-135" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="52ac7474-c90f-487f-9058-3859741f876b" name="Response Headers" type="Collection">
+    <subsheetid>46e49774-7427-457f-ab22-bfafdabdcbdb</subsheetid>
+    <display x="330" y="-135" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="38b64f2e-4918-4eee-9bb0-f6e83285d8bd" name="Request Data" type="Data">
+    <subsheetid>46e49774-7427-457f-ab22-bfafdabdcbdb</subsheetid>
+    <display x="330" y="-75" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="49d3d443-8ebc-4938-8540-f358bcdd88a8" name="Action1" type="Action">
+    <subsheetid>46e49774-7427-457f-ab22-bfafdabdcbdb</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-480" y="-225" />
+    <resource object="" action="" />
+  </stage>
+  <stage stageid="d90daa30-0454-4a5f-a7bf-e8d04e77c17c" name="chatGPT" type="SubSheetInfo">
+    <subsheetid>7c555395-4298-46b9-9872-814449bd550a</subsheetid>
+    <display x="-420" y="-60" w="150" h="90" />
+  </stage>
+  <stage stageid="9511fb68-6428-44d8-998d-ea28637f083b" name="Start" type="Start">
+    <subsheetid>7c555395-4298-46b9-9872-814449bd550a</subsheetid>
+    <display x="15" y="-105" />
+    <onsuccess>9e71fd9c-2a87-476f-84e2-bc2d14fa3304</onsuccess>
+  </stage>
+  <stage stageid="9c1d19fc-1cd7-4cb7-ac4e-96783952e3b7" name="End" type="End">
+    <subsheetid>7c555395-4298-46b9-9872-814449bd550a</subsheetid>
+    <display x="15" y="120" />
+  </stage>
+  <stage stageid="9e71fd9c-2a87-476f-84e2-bc2d14fa3304" name="ChatGPT::Completion" type="Action">
+    <subsheetid>7c555395-4298-46b9-9872-814449bd550a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="0" />
+    <outputs>
+      <output type="text" name="Response Content" friendlyname="Response Content" stage="Response Content" />
+      <output type="text" name="HTTP Status Code" friendlyname="HTTP Status Code" stage="HTTP Status Code" />
+      <output type="collection" name="Response Headers" friendlyname="Response Headers" stage="Response Headers" />
+      <output type="collection" name="outPut" friendlyname="outPut" stage="outPut" />
+      <output type="text" name="Request Data" friendlyname="Request Data" stage="Request Data" />
+    </outputs>
+    <onsuccess>9c1d19fc-1cd7-4cb7-ac4e-96783952e3b7</onsuccess>
+    <resource object="ChatGPT" action="Completion" />
+  </stage>
+  <stage stageid="a0530116-155f-4271-ac11-0be2ff9d7fc2" name="Response Content" type="Data">
+    <subsheetid>7c555395-4298-46b9-9872-814449bd550a</subsheetid>
+    <display x="285" y="-75" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="968806c2-cd82-4700-ba42-c335cf297ab8" name="HTTP Status Code" type="Data">
+    <subsheetid>7c555395-4298-46b9-9872-814449bd550a</subsheetid>
+    <display x="315" y="45" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="69d06ee5-586f-412e-9c2f-ad2dfe36be60" name="Response Headers" type="Collection">
+    <subsheetid>7c555395-4298-46b9-9872-814449bd550a</subsheetid>
+    <display x="360" y="-15" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="3a98e636-9367-4a12-b07a-f10b111472d5" name="outPut" type="Collection">
+    <subsheetid>7c555395-4298-46b9-9872-814449bd550a</subsheetid>
+    <display x="360" y="-75" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="2902f925-0936-4f5b-b267-d16664cad95c" name="Request Data" type="Data">
+    <subsheetid>7c555395-4298-46b9-9872-814449bd550a</subsheetid>
+    <display x="285" y="-15" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="c0c78769-b607-40b1-8102-87fcd2b6c17b" name="Page 4" type="SubSheetInfo">
+    <subsheetid>2255f333-5539-41c5-9f2d-ba8b98291962</subsheetid>
+    <display x="-420" y="-225" w="150" h="90" />
+  </stage>
+  <stage stageid="c4821eb5-7986-49f9-af79-bee634f9498f" name="Start" type="Start">
+    <subsheetid>2255f333-5539-41c5-9f2d-ba8b98291962</subsheetid>
+    <display x="15" y="-105" />
+    <onsuccess>53a10ef6-5cbd-4458-8f02-35f52df55e17</onsuccess>
+  </stage>
+  <stage stageid="9eebdfc8-a506-4e2c-9d16-8d879e2f4e8f" name="End" type="End">
+    <subsheetid>2255f333-5539-41c5-9f2d-ba8b98291962</subsheetid>
+    <display x="15" y="195" />
+  </stage>
+  <stage stageid="53a10ef6-5cbd-4458-8f02-35f52df55e17" name="MS Excel VBO::Create Instance" type="Action">
+    <subsheetid>2255f333-5539-41c5-9f2d-ba8b98291962</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-45" />
+    <inputs>
+      <input type="flag" name="Enable Events" friendlyname="Enable Events" narrative="Flag to indicate that events should be enabled / disabled on the attached instance - defaulted to True" expr="" />
+    </inputs>
+    <outputs>
+      <output type="number" name="handle" friendlyname="handle" narrative="An integer which can be used to identify the created instance in subsequent actions" stage="handle" />
+    </outputs>
+    <onsuccess>561abf71-6336-43c0-bca6-2dd72eb3a089</onsuccess>
+    <resource object="MS Excel VBO" action="Create Instance" />
+  </stage>
+  <stage stageid="359b6a9c-d525-48a1-a730-4d9a35e1adbd" name="handle" type="Data">
+    <subsheetid>2255f333-5539-41c5-9f2d-ba8b98291962</subsheetid>
+    <display x="180" y="-75" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="561abf71-6336-43c0-bca6-2dd72eb3a089" name="MS Excel VBO::Open Workbook" type="Action">
+    <subsheetid>2255f333-5539-41c5-9f2d-ba8b98291962</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="15" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the required workbook should be opened. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="File name" friendlyname="File name" narrative="The path and name of the file which should be opened." expr="&quot;C:\Users\shahn\Downloads\Book.xlsx&quot;" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name used by Excel to identify the workbook - usually this is the file name (without the path)." stage="Workbook Name" />
+    </outputs>
+    <onsuccess>d70960b5-2825-4093-84a0-59595fbe6330</onsuccess>
+    <resource object="MS Excel VBO" action="Open Workbook" />
+  </stage>
+  <stage stageid="c511d2cb-c260-4c12-ab71-92af8ffc0f2f" name="Workbook Name" type="Data">
+    <subsheetid>2255f333-5539-41c5-9f2d-ba8b98291962</subsheetid>
+    <display x="255" y="-75" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="d70960b5-2825-4093-84a0-59595fbe6330" name="MS Excel VBO::Get Worksheet As Collection" type="Action">
+    <subsheetid>2255f333-5539-41c5-9f2d-ba8b98291962</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="75" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the worksheet which should be retrieved resides. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook which contains the sheet required. The default empty text indicates the currently active workbook on the specified instance." expr="[Workbook Name]" />
+      <input type="text" name="Worksheet Name" friendlyname="Worksheet Name" narrative="The name of the worksheet within the specified workbook which should be written to a collection. The default empty text indicates the currently active worksheet within the specified workbook." expr="&quot;Sheet1&quot;" />
+      <input type="text" name="Fetch Data With Method" friendlyname="Fetch Data With Method" narrative="The method used to fetch data from cells in the worksheet. Options include Text, Value, and Value2. The default indicates Value will be used." expr="" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Data" friendlyname="Data" narrative="The collection containing the data from the specified worksheet - the column IDs will be gleaned from the first row on the sheet being retrieved." stage="Data" />
+    </outputs>
+    <onsuccess>9eebdfc8-a506-4e2c-9d16-8d879e2f4e8f</onsuccess>
+    <resource object="MS Excel VBO" action="Get Worksheet As Collection" />
+  </stage>
+  <stage stageid="eb1bc9d3-2633-4861-9a10-6ab7eb84fa75" name="Data" type="Collection">
+    <subsheetid>2255f333-5539-41c5-9f2d-ba8b98291962</subsheetid>
+    <display x="210" y="15" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+</process>

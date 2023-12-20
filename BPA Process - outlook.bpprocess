@@ -1,0 +1,734 @@
+﻿<process name="outlook" version="1.0" bpversion="7.2.1.7446" narrative="" byrefcollection="true" processrunningmessage="" disableversioning="false" preferredid="5be1cbd9-9d58-4bf7-929d-f8a4693e30f3">
+  <view>
+    <camerax>-138</camerax>
+    <cameray>-92</cameray>
+    <zoom version="2">1.25</zoom>
+  </view>
+  <preconditions />
+  <endpoint narrative="" />
+  <subsheet subsheetid="3009584c-fbb2-429a-bb8f-27c3e4fa02b2" type="Normal" published="False">
+    <name>Page 2</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>114</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="ecbe1d24-0d48-4a37-b7cc-7831130d386f" type="Normal" published="False">
+    <name>excelopration</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>15</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="cbb8fc3b-9276-4f73-91dc-2053649edb6f" type="Normal" published="False">
+    <name>GetAttachment</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="4a0e263e-4896-47eb-992f-191010dd9b4a" type="Normal" published="False">
+    <name>Read/Unread</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <stage stageid="3f2f63d8-18e8-46c7-abbc-4c68fcaad72d" name="Start" type="Start">
+    <display x="15" y="-210" />
+    <onsuccess>c09ddef7-19b9-4871-8336-93d0b11b29fd</onsuccess>
+  </stage>
+  <stage stageid="355efe5d-18b9-4948-b99b-e0944842de44" name="End" type="End">
+    <display x="15" y="180" />
+  </stage>
+  <stage stageid="8a55820f-6569-45ae-9c36-e277fda61087" name="Stage1" type="ProcessInfo">
+    <display x="-630" y="-360" w="150" h="90" />
+  </stage>
+  <stage stageid="d0988300-2fcf-4706-9ea5-145b2121f1b4" name="MS Outlook Email VBO::Get Received Items (Basic)" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-75" />
+    <inputs>
+      <input type="text" name="Sub Folder" friendlyname="Sub Folder" narrative="Optional. Any alphanumeric value valid. The Subfolder in the Inbox, eg. Subfolder A needs to be declared as &quot;Subfolder A&quot;. A Nested Subfolder eg. Subfolder B in Subfolder A, needs to be declared as &quot;Subfolder A\Subfolder B&quot;." expr="&quot;test&quot;" />
+      <input type="text" name="Account Display Name" friendlyname="Account Display Name" narrative="Optional. DisplayName of the email account. Default account is used if omitted." expr="" />
+      <input type="text" name="Shared Mailbox" friendlyname="Shared Mailbox" narrative="Optional. Share Mailbox name or email address. Attempt to call Shared Mailbox is only initiated when a vaue is supplied." expr="" />
+      <input type="text" name="Sender Name" friendlyname="Sender Name" narrative="Optional. The From display name, which might be a name (eg John Smith) or email address (eg admin@client.com). Asterisk wildcard permitted, eg *John Smith* for any mail where the text 'John Smith' appears in the From field." expr="" />
+      <input type="text" name="Sender Email" friendlyname="Sender Email" narrative="Optional. The sender email address." expr="" />
+      <input type="datetime" name="Received Earliest" friendlyname="Received Earliest" narrative="Optional. The earliest date to search from." expr="" />
+      <input type="datetime" name="Received Latest" friendlyname="Received Latest" narrative="Optional. The latest date to search to." expr="" />
+      <input type="text" name="Subject" friendlyname="Subject" narrative="Optional. Asterisk wildcard permitted, eg *Project Update for 'Project Update', 'RE: Project Update' etc." expr="&quot;mainf&quot;" />
+      <input type="text" name="Message" friendlyname="Message" narrative="Optional. Asterisk wildcard permitted, eg *Blue Prism*" expr="" />
+      <input type="flag" name="Include Read" friendlyname="Include Read" narrative="Optional, default True" expr="True" />
+      <input type="flag" name="Include Unread" friendlyname="Include Unread" narrative="Optional, default True" expr="False" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Items" friendlyname="Items" narrative="Details of items matching the filter" stage="Items" />
+      <output type="number" name="Item Count" friendlyname="Item Count" narrative="Number of items matching the filter" stage="Item Count" />
+    </outputs>
+    <onsuccess>537dd04c-8792-4e71-a25d-3906d0910b97</onsuccess>
+    <resource object="MS Outlook Email VBO" action="Get Received Items (Basic)" />
+  </stage>
+  <stage stageid="a7b3ab0d-c91d-40a0-9d5c-5c1bbf8df18e" name="Items" type="Collection">
+    <display x="210" y="-195" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <field name="EntryID" type="text" description="The mail ID. NB this is different from the Mapiex ID." />
+      <field name="To" type="text" description="The display name of the recipient(s)" />
+      <field name="CC" type="text" description="The display name of the copied recipient(s)" />
+      <field name="Subject" type="text" description="The mail subject line" />
+      <field name="Body" type="text" description="The mail message" />
+      <field name="Attachments" type="text" description="The names of the attachements as a CSV string" />
+      <field name="ReceivedOn" type="datetime" description="The date an incoming mail was received" />
+      <field name="SentOn" type="datetime" description="The date an outgoing mail was sent" />
+      <field name="SenderName" type="text" description="The display name of the sender" />
+      <field name="SenderEmailAddress" type="text" description="The email of the sender" />
+      <field name="Unread" type="flag" description="True if an incoming mail has not been read, otherwise False" />
+      <field name="Sensitivity" type="number" description="Sensitivity of an email, from 0 to 3" />
+      <field name="Importance" type="number" description="Importance of an email, from 0 to 2" />
+      <field name="Flag" type="text" description="Flagged status of an email" />
+      <field name="IsHTML" type="flag" description="True if an email is in HTML" />
+    </collectioninfo>
+  </stage>
+  <stage stageid="d8289e92-b87a-494d-90e3-919ab95632af" name="Item Count" type="Data">
+    <display x="315" y="-135" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="b4af3e85-4a2f-46a7-9734-23ff73ef4509" name="Data1" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="330" y="-45" />
+    <datatype>unknown</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="0d30d4c3-4e5e-4710-98e1-37d5d2fc0f89" name="instance" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="195" y="-135" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">
+"C:\Program Files (x86)\Microsoft Office\root\Office16\OUTLOOK.EXE"</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="bcc1224d-93a5-4bc5-a681-6989e232014e" name="init" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="210" y="-45" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <exposure>Environment</exposure>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="c09ddef7-19b9-4871-8336-93d0b11b29fd" name="Utility - Environment::Start Process" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-135" />
+    <inputs>
+      <input type="text" name="Application" friendlyname="Application" narrative="The application or short cut to start" expr="&quot;C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE&quot;" />
+      <input type="text" name="Arguments" friendlyname="Arguments" narrative="Any arguments needed for the app" expr="" />
+    </inputs>
+    <onsuccess>d0988300-2fcf-4706-9ea5-145b2121f1b4</onsuccess>
+    <resource object="Utility - Environment" action="Start Process" />
+  </stage>
+  <stage stageid="537dd04c-8792-4e71-a25d-3906d0910b97" name="Collections::Count Rows" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="0" />
+    <inputs>
+      <input type="text" name="Collection Name" friendlyname="Collection Name" narrative="The name of the collection to act upon" expr="&quot;Items&quot;" />
+    </inputs>
+    <outputs>
+      <output type="number" name="Count" friendlyname="Count" narrative="The number of rows counted in the collection" stage="Count" />
+    </outputs>
+    <onsuccess>4db532ec-7abd-4610-94d1-7e9409c4a76b</onsuccess>
+    <resource object="Blueprism.AutomateProcessCore.clsCollectionActions" action="Count Rows" />
+  </stage>
+  <stage stageid="6871fc98-f95b-4f15-94f0-8d607dfdd9aa" name="Count" type="Data">
+    <display x="315" y="-195" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="4db532ec-7abd-4610-94d1-7e9409c4a76b" name="MS Outlook Email VBO::Delete Email" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="60" />
+    <inputs>
+      <input type="text" name="Entry ID" friendlyname="Entry ID" narrative="Mandatory. An ID obtained from one of the Get Item actions in this object. NB not the same as a Mapiex ID." expr="[Items.EntryID]" />
+    </inputs>
+    <onsuccess>355efe5d-18b9-4948-b99b-e0944842de44</onsuccess>
+    <resource object="MS Outlook Email VBO" action="Delete Email" />
+  </stage>
+  <stage stageid="9461e528-9826-4900-80f5-2d153b98e6d0" name="Page 2" type="SubSheetInfo">
+    <subsheetid>3009584c-fbb2-429a-bb8f-27c3e4fa02b2</subsheetid>
+    <display x="-555" y="-180" w="150" h="90" />
+  </stage>
+  <stage stageid="47dc8305-cd34-4437-8365-9656dea3e2e5" name="Start" type="Start">
+    <subsheetid>3009584c-fbb2-429a-bb8f-27c3e4fa02b2</subsheetid>
+    <display x="15" y="-165" />
+    <onsuccess>0680f704-9f3d-4530-bb60-723822da6737</onsuccess>
+  </stage>
+  <stage stageid="c958399c-21b7-47bb-ad0a-bdde2e751beb" name="End" type="End">
+    <subsheetid>3009584c-fbb2-429a-bb8f-27c3e4fa02b2</subsheetid>
+    <display x="15" y="240" />
+  </stage>
+  <stage stageid="0680f704-9f3d-4530-bb60-723822da6737" name="Utility - Environment::Start Process" type="Action">
+    <subsheetid>3009584c-fbb2-429a-bb8f-27c3e4fa02b2</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-90" />
+    <inputs>
+      <input type="text" name="Application" friendlyname="Application" narrative="The application or short cut to start" expr="&quot;C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE&quot;" />
+      <input type="text" name="Arguments" friendlyname="Arguments" narrative="Any arguments needed for the app" expr="" />
+    </inputs>
+    <onsuccess>c191c6c1-5cef-432c-bcae-4676b1b554b4</onsuccess>
+    <resource object="Utility - Environment" action="Start Process" />
+  </stage>
+  <stage stageid="c191c6c1-5cef-432c-bcae-4676b1b554b4" name="MS Outlook Email VBO::Get Received Items (Basic)" type="Action">
+    <subsheetid>3009584c-fbb2-429a-bb8f-27c3e4fa02b2</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-30" />
+    <inputs>
+      <input type="text" name="Sender Name" friendlyname="Sender Name" narrative="Optional. The From display name, which might be a name (eg John Smith) or email address (eg admin@client.com). Asterisk wildcard permitted, eg *John Smith* for any mail where the text 'John Smith' appears in the From field." expr="" />
+      <input type="text" name="Sender Email" friendlyname="Sender Email" narrative="Optional. The sender email address." expr="" />
+      <input type="datetime" name="Received Earliest" friendlyname="Received Earliest" narrative="Optional. The earliest date to search from." expr="" />
+      <input type="datetime" name="Received Latest" friendlyname="Received Latest" narrative="Optional. The latest date to search to." expr="" />
+      <input type="text" name="Subject" friendlyname="Subject" narrative="Optional. Asterisk wildcard permitted, eg *Project Update for 'Project Update', 'RE: Project Update' etc." expr="&quot;Closeouts&quot;" />
+      <input type="text" name="Message" friendlyname="Message" narrative="Optional. Asterisk wildcard permitted, eg *Blue Prism*" expr="" />
+      <input type="flag" name="Include Read" friendlyname="Include Read" narrative="Optional, default True" expr="False" />
+      <input type="flag" name="Include Unread" friendlyname="Include Unread" narrative="Optional, default True" expr="True" />
+      <input type="text" name="Sub Folder" friendlyname="Sub Folder" narrative="Optional. Any alphanumeric value valid. The Subfolder in the Inbox, eg. Subfolder A needs to be declared as &quot;Subfolder A&quot;. A Nested Subfolder eg. Subfolder B in Subfolder A, needs to be declared as &quot;Subfolder A\Subfolder B&quot;." expr="&quot;test&quot;" />
+      <input type="text" name="Account Display Name" friendlyname="Account Display Name" narrative="Optional. DisplayName of the email account. Default account is used if omitted." expr="" />
+      <input type="text" name="Shared Mailbox" friendlyname="Shared Mailbox" narrative="Optional. Share Mailbox name or email address. Attempt to call Shared Mailbox is only initiated when a vaue is supplied." expr="" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Items" friendlyname="Items" narrative="Details of items matching the filter" stage="Items" />
+      <output type="number" name="Item Count" friendlyname="Item Count" narrative="Number of items matching the filter" stage="Item Count" />
+    </outputs>
+    <onsuccess>2d9d54d7-8198-4357-82ca-5aaf0a5a0577</onsuccess>
+    <resource object="MS Outlook Email VBO" action="Get Received Items (Basic)" />
+  </stage>
+  <stage stageid="ce914cd6-5b75-493e-9944-42e47416710e" name="Items" type="Collection">
+    <subsheetid>3009584c-fbb2-429a-bb8f-27c3e4fa02b2</subsheetid>
+    <display x="270" y="-45" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <field name="EntryID" type="text" description="The mail ID. NB this is different from the Mapiex ID." />
+      <field name="To" type="text" description="The display name of the recipient(s)" />
+      <field name="CC" type="text" description="The display name of the copied recipient(s)" />
+      <field name="Subject" type="text" description="The mail subject line" />
+      <field name="Body" type="text" description="The mail message" />
+      <field name="Attachments" type="text" description="The names of the attachements as a CSV string" />
+      <field name="ReceivedOn" type="datetime" description="The date an incoming mail was received" />
+      <field name="SentOn" type="datetime" description="The date an outgoing mail was sent" />
+      <field name="SenderName" type="text" description="The display name of the sender" />
+      <field name="SenderEmailAddress" type="text" description="The email of the sender" />
+      <field name="Unread" type="flag" description="True if an incoming mail has not been read, otherwise False" />
+      <field name="Sensitivity" type="number" description="Sensitivity of an email, from 0 to 3" />
+      <field name="Importance" type="number" description="Importance of an email, from 0 to 2" />
+      <field name="Flag" type="text" description="Flagged status of an email" />
+      <field name="IsHTML" type="flag" description="True if an email is in HTML" />
+    </collectioninfo>
+  </stage>
+  <stage stageid="0bff5f84-67d4-437f-80e3-3f977125d204" name="Item Count" type="Data">
+    <subsheetid>3009584c-fbb2-429a-bb8f-27c3e4fa02b2</subsheetid>
+    <display x="270" y="-105" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="0d90837e-5d0a-48fb-baf3-a5c4ac5de323" name="MS Outlook Email VBO::Mark Email As Read" type="Action">
+    <subsheetid>3009584c-fbb2-429a-bb8f-27c3e4fa02b2</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="90" />
+    <inputs>
+      <input type="text" name="Entry ID" friendlyname="Entry ID" narrative="Mandatory. An ID obtained from one of the Get Item actions in this object. NB not the same as a Mapiex ID." expr="[Items.EntryID]" />
+    </inputs>
+    <onsuccess>be915113-60a5-4687-8b58-9a4ff1148fa7</onsuccess>
+    <resource object="MS Outlook Email VBO" action="Mark Email As Read" />
+  </stage>
+  <stage stageid="2d9d54d7-8198-4357-82ca-5aaf0a5a0577" name="Decision1" type="Decision">
+    <subsheetid>3009584c-fbb2-429a-bb8f-27c3e4fa02b2</subsheetid>
+    <display x="15" y="30" />
+    <decision expression="[Item Count]&gt;0" />
+    <ontrue>0d90837e-5d0a-48fb-baf3-a5c4ac5de323</ontrue>
+    <onfalse>5540eefb-e4d8-46d9-9b19-5abad6986d25</onfalse>
+  </stage>
+  <stage stageid="5540eefb-e4d8-46d9-9b19-5abad6986d25" name="Exception1" type="Exception">
+    <subsheetid>3009584c-fbb2-429a-bb8f-27c3e4fa02b2</subsheetid>
+    <display x="120" y="30" />
+    <exception localized="yes" type="&quot;Business Exception&quot;" detail="&quot;No email recived for input file&quot;" />
+  </stage>
+  <stage stageid="be915113-60a5-4687-8b58-9a4ff1148fa7" name="MS Outlook Email VBO::Save Attachment" type="Action">
+    <subsheetid>3009584c-fbb2-429a-bb8f-27c3e4fa02b2</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="135" />
+    <inputs>
+      <input type="text" name="Entry ID" friendlyname="Entry ID" narrative="Mandatory. An ID obtained from one of the Get Item actions in this object. NB not the same as a Mapiex ID." expr="[Items.EntryID]" />
+      <input type="text" name="Folder Path" friendlyname="Folder Path" narrative="Mandatory. The destination folder path for the attachments to be stored. Example &quot;C:\Temp&quot;." expr="&quot;D:\BluePrism Apps\Excel&quot;" />
+      <input type="text" name="File Name" friendlyname="File Name" narrative="Optional, Default value is *.* but common cases inlcude &quot;.docx&quot; , &quot;.pdf&quot; , &quot;.xlsx&quot; etc." expr="Today()" />
+    </inputs>
+    <onsuccess>1d24e314-0337-4df6-b3bd-9f95981c53fd</onsuccess>
+    <resource object="MS Outlook Email VBO" action="Save Attachment" />
+  </stage>
+  <stage stageid="463fb503-9952-499e-9aa5-743fe62a1344" name="excelopration" type="SubSheetInfo">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <display x="-555" y="-195" w="150" h="90" />
+  </stage>
+  <stage stageid="edbee7d1-f0d5-4d64-9b9a-d197aea6cac0" name="Start" type="Start">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <display x="-60" y="-270" />
+    <onsuccess>fa094fb6-d945-489c-b811-a71a7c172f37</onsuccess>
+  </stage>
+  <stage stageid="ec745970-9273-4ebc-a588-3c78955be347" name="End" type="End">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <display x="585" y="210" />
+  </stage>
+  <stage stageid="fa094fb6-d945-489c-b811-a71a7c172f37" name="MS Excel VBO::Create Instance" type="Action">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-60" y="-195" />
+    <inputs>
+      <input type="flag" name="Enable Events" friendlyname="Enable Events" narrative="Flag to indicate that events should be enabled / disabled on the attached instance - defaulted to True" expr="" />
+    </inputs>
+    <outputs>
+      <output type="number" name="handle" friendlyname="handle" narrative="An integer which can be used to identify the created instance in subsequent actions" stage="handle" />
+    </outputs>
+    <onsuccess>b7ef9124-bf42-43c5-acf9-bcb712be472f</onsuccess>
+    <resource object="MS Excel VBO" action="Create Instance" />
+  </stage>
+  <stage stageid="7d0f9111-f652-48dc-80c3-61b1286b0dd7" name="handle" type="Data">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <display x="240" y="-150" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="b7ef9124-bf42-43c5-acf9-bcb712be472f" name="MS Excel VBO::Open Workbook" type="Action">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-60" y="-135" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the required workbook should be opened. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="File name" friendlyname="File name" narrative="The path and name of the file which should be opened." expr="&quot;D:\BluePrism Apps\Excel\close out.xlsx&quot;" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name used by Excel to identify the workbook - usually this is the file name (without the path)." stage="Workbook Name" />
+    </outputs>
+    <onsuccess>ce1912af-d17c-4331-af82-a6e07c35ad8f</onsuccess>
+    <resource object="MS Excel VBO" action="Open Workbook" />
+  </stage>
+  <stage stageid="76e950e4-8428-4641-8557-fecd72ab3434" name="Workbook Name" type="Data">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <display x="315" y="-150" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="ce1912af-d17c-4331-af82-a6e07c35ad8f" name="MS Excel VBO::Get Worksheet As Collection" type="Action">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <loginhibitparameters />
+    <display x="-60" y="-75" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the worksheet which should be retrieved resides. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook which contains the sheet required. The default empty text indicates the currently active workbook on the specified instance." expr="[Workbook Name]" />
+      <input type="text" name="Worksheet Name" friendlyname="Worksheet Name" narrative="The name of the worksheet within the specified workbook which should be written to a collection. The default empty text indicates the currently active worksheet within the specified workbook." expr="&quot;Sheet1&quot;" />
+      <input type="text" name="Fetch Data With Method" friendlyname="Fetch Data With Method" narrative="The method used to fetch data from cells in the worksheet. Options include Text, Value, and Value2. The default indicates Value will be used." expr="" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Data" friendlyname="Data" narrative="The collection containing the data from the specified worksheet - the column IDs will be gleaned from the first row on the sheet being retrieved." stage="Data" />
+    </outputs>
+    <onsuccess>ea4e8d62-0755-435a-b53b-bb22e8c5920d</onsuccess>
+    <resource object="MS Excel VBO" action="Get Worksheet As Collection" />
+  </stage>
+  <stage stageid="1413cd0d-c388-48ca-932a-d25a7f3006c5" name="Data" type="Collection">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <display x="255" y="-90" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="1d24e314-0337-4df6-b3bd-9f95981c53fd" name="MS Outlook Email VBO::Move Email to Inbox Sub Folder" type="Action">
+    <subsheetid>3009584c-fbb2-429a-bb8f-27c3e4fa02b2</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="180" />
+    <inputs>
+      <input type="text" name="Entry ID" friendlyname="Entry ID" narrative="Mandatory. An ID obtained from one of the Get Item actions in this object. NB not the same as a Mapiex ID." expr="[Items.EntryID]" />
+      <input type="text" name="Destination Folder" friendlyname="Destination Folder" narrative="Mandatory. Any alphanumeric value valid. The Subfolder in the Inbox, eg. Subfolder A needs to be declared as &quot;Subfolder A&quot;. A Nested Subfolder eg. Subfolder B in Subfolder A, needs to be declared as &quot;Subfolder A\Subfolder B&quot;." expr="&quot;mark_read_deleted&quot;" />
+      <input type="text" name="Account Display Name" friendlyname="Account Display Name" narrative="Optional. DisplayName of the email account to move the email to. Default account is used if omitted." expr="" />
+    </inputs>
+    <outputs>
+      <output type="text" name="New Entry ID" friendlyname="New Entry ID" narrative="Returns the new Entry ID from the Moved Email Object" stage="New Entry ID" />
+    </outputs>
+    <onsuccess>c958399c-21b7-47bb-ad0a-bdde2e751beb</onsuccess>
+    <resource object="MS Outlook Email VBO" action="Move Email to Inbox Sub Folder" />
+  </stage>
+  <stage stageid="a9408353-6366-4439-85a3-0fb087dfb72d" name="New Entry ID" type="Data">
+    <subsheetid>3009584c-fbb2-429a-bb8f-27c3e4fa02b2</subsheetid>
+    <display x="390" y="-105" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="76fdddd3-1a34-4da1-9072-6528c3530121" name="Choice1" type="ChoiceStart">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <display x="-60" y="45" />
+    <groupid>72b34af7-6534-492e-8521-f340e6629305</groupid>
+    <choices>
+      <choice expression="[Data.Request]=&quot;Decline&quot;">
+        <name>Decline</name>
+        <distance>105</distance>
+        <ontrue>e3c2e1e5-06d4-4adf-ac48-5a0c266a3a6a</ontrue>
+      </choice>
+      <choice expression="[Data.Request]=&quot;Incomplete&quot;">
+        <name>Incomplete</name>
+        <distance>210</distance>
+        <ontrue>74d1aa8c-526f-42a8-bef2-0f50301b83da</ontrue>
+      </choice>
+      <choice expression="[Data.Request]=&quot;withdrawal&quot;">
+        <name>withdrawal</name>
+        <distance>330</distance>
+        <ontrue>f220e4fd-1fec-4421-a183-6c495ee70bf5</ontrue>
+      </choice>
+    </choices>
+  </stage>
+  <stage stageid="e0844cd6-7452-4062-a37a-cbf23382375d" name="Otherwise1" type="ChoiceEnd">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <display x="375" y="45" />
+    <onsuccess>c8adbc2c-eed1-47fd-a606-cb8c9127449d</onsuccess>
+    <groupid>72b34af7-6534-492e-8521-f340e6629305</groupid>
+  </stage>
+  <stage stageid="e3c2e1e5-06d4-4adf-ac48-5a0c266a3a6a" name="Calc1" type="Calculation">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="45" y="105" />
+    <onsuccess>331dd22f-67b4-498c-aad7-41799ac9eae6</onsuccess>
+    <calculation expression="&quot;Decline&quot;" stage="d" />
+  </stage>
+  <stage stageid="74d1aa8c-526f-42a8-bef2-0f50301b83da" name="Calc1" type="Calculation">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="150" y="105" />
+    <onsuccess>5195b86f-48ae-4937-ac54-2c54dfc9215f</onsuccess>
+    <calculation expression="&quot;Incomplete&quot;" stage="i" />
+  </stage>
+  <stage stageid="f220e4fd-1fec-4421-a183-6c495ee70bf5" name="Calc1" type="Calculation">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="270" y="105" />
+    <onsuccess>5f7a07b6-dc2a-47f5-a6fa-a13574f3eb05</onsuccess>
+    <calculation expression="&quot;Withdrwal&quot;" stage="w" />
+  </stage>
+  <stage stageid="c8adbc2c-eed1-47fd-a606-cb8c9127449d" name="Calc1" type="Calculation">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="375" y="105" />
+    <onsuccess>552d2ea4-cf76-47ff-a7e0-f6bfe9e75412</onsuccess>
+    <calculation expression="" stage="" />
+  </stage>
+  <stage stageid="91b982b1-698a-469d-8336-116434677c77" name="w" type="Data">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <display x="-450" y="135" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="546fc8f0-cc9a-42b3-ad1e-b9186ea8cc8a" name="i" type="Data">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <display x="-375" y="135" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="52671551-e8ef-46a5-ab4b-13ba76838352" name="d" type="Data">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <display x="-300" y="135" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="331dd22f-67b4-498c-aad7-41799ac9eae6" name="Anchor1" type="Anchor">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="45" y="210" w="10" h="10" />
+    <onsuccess>5195b86f-48ae-4937-ac54-2c54dfc9215f</onsuccess>
+  </stage>
+  <stage stageid="5195b86f-48ae-4937-ac54-2c54dfc9215f" name="Anchor2" type="Anchor">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="150" y="210" w="10" h="10" />
+    <onsuccess>5f7a07b6-dc2a-47f5-a6fa-a13574f3eb05</onsuccess>
+  </stage>
+  <stage stageid="5f7a07b6-dc2a-47f5-a6fa-a13574f3eb05" name="Anchor3" type="Anchor">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="270" y="210" w="10" h="10" />
+    <onsuccess>552d2ea4-cf76-47ff-a7e0-f6bfe9e75412</onsuccess>
+  </stage>
+  <stage stageid="552d2ea4-cf76-47ff-a7e0-f6bfe9e75412" name="Anchor4" type="Anchor">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="375" y="210" w="10" h="10" />
+    <onsuccess>6c3f925b-bd4f-4e27-936a-07700739c86b</onsuccess>
+  </stage>
+  <stage stageid="d92b2a75-52ee-42f4-9f66-f3801c44fc8c" name="Loop Start1" type="LoopStart">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-150" y="45" />
+    <onsuccess>76fdddd3-1a34-4da1-9072-6528c3530121</onsuccess>
+    <groupid>07278e20-d97e-4072-bdce-c39d18522e20</groupid>
+    <looptype>ForEach</looptype>
+    <loopdata>Data</loopdata>
+  </stage>
+  <stage stageid="6c3f925b-bd4f-4e27-936a-07700739c86b" name="Loop End1" type="LoopEnd">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="465" y="210" />
+    <onsuccess>ec745970-9273-4ebc-a588-3c78955be347</onsuccess>
+    <groupid>07278e20-d97e-4072-bdce-c39d18522e20</groupid>
+  </stage>
+  <stage stageid="72393190-ecc0-44cc-b14d-8d7a5daf4689" name="GetAttachment" type="SubSheetInfo">
+    <subsheetid>cbb8fc3b-9276-4f73-91dc-2053649edb6f</subsheetid>
+    <display x="-555" y="-210" w="150" h="90" />
+  </stage>
+  <stage stageid="41a80104-dc88-4d26-b478-81306f565ea1" name="Start" type="Start">
+    <subsheetid>cbb8fc3b-9276-4f73-91dc-2053649edb6f</subsheetid>
+    <display x="-15" y="-210" />
+    <onsuccess>1baa8dbf-8e81-444a-b0ed-575c129fdf05</onsuccess>
+  </stage>
+  <stage stageid="4497f17c-641b-45a8-9b7c-bc09870cc217" name="End" type="End">
+    <subsheetid>cbb8fc3b-9276-4f73-91dc-2053649edb6f</subsheetid>
+    <display x="-15" y="195" />
+  </stage>
+  <stage stageid="1baa8dbf-8e81-444a-b0ed-575c129fdf05" name="Utility - Environment::Start Process" type="Action">
+    <subsheetid>cbb8fc3b-9276-4f73-91dc-2053649edb6f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-15" y="-150" />
+    <inputs>
+      <input type="text" name="Application" friendlyname="Application" narrative="The application or short cut to start" expr="&quot;C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE&quot;" />
+      <input type="text" name="Arguments" friendlyname="Arguments" narrative="Any arguments needed for the app" expr="" />
+    </inputs>
+    <onsuccess>14331de0-9d83-42e9-bbfa-9e9d50608493</onsuccess>
+    <resource object="Utility - Environment" action="Start Process" />
+  </stage>
+  <stage stageid="14331de0-9d83-42e9-bbfa-9e9d50608493" name="MS Outlook Email VBO::Send Email" type="Action">
+    <subsheetid>cbb8fc3b-9276-4f73-91dc-2053649edb6f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-15" y="-90" />
+    <inputs>
+      <input type="text" name="Account Display Name" friendlyname="Account Display Name" narrative="Optional. DisplayName of the email account. Default account is used if omitted." expr="" />
+      <input type="text" name="Shared Mailbox" friendlyname="Shared Mailbox" narrative="Optional. Share Mailbox name or email address. Attempt to call Shared Mailbox is only initiated when a value is supplied." expr="" />
+      <input type="text" name="To" friendlyname="To" narrative="Mandatory. Any alphanumeric value allowed. Single Recipient = &quot;Name1@emaill.com&quot;; Multi Recipient = &quot;Name1@emaill.com; Name2@email.com&quot;" expr="&quot;shahnawaz.siddiqui2@gmail.com&quot;" />
+      <input type="text" name="CC" friendlyname="CC" narrative="Optional. Any alphanumeric value allowed. Single Recipient = &quot;Name1@emaill.com&quot;; Multi Recipient = &quot;Name1@emaill.com; Name2@email.com&quot;. Default blank" expr="" />
+      <input type="text" name="BCC" friendlyname="BCC" narrative="Optional. Any alphanumeric value allowed. Single Recipient = &quot;Name1@emaill.com&quot;; Multi Recipient = &quot;Name1@emaill.com; Name2@email.com&quot;. Default blank" expr="" />
+      <input type="text" name="Subject" friendlyname="Subject" narrative="Optional. Any alphanumeric value allowed." expr="&quot;Please check voting button and respond&quot;" />
+      <input type="text" name="Message" friendlyname="Message" narrative="Optional, HTML or plain text" expr="&quot;Please check voting button and respond&quot;" />
+      <input type="text" name="Attachments" friendlyname="Attachments" narrative="Optional, Semicolon--separated file paths. Default blank." expr="" />
+      <input type="flag" name="IsHTML" friendlyname="IsHTML" narrative="Optional. True or False, default to True" expr="True" />
+      <input type="number" name="Sensitivity" friendlyname="Sensitivity" narrative="Optional. An integer between 0 and 3, default to 0." expr="" />
+      <input type="number" name="Importance" friendlyname="Importance" narrative="Optional. An integer between 0 and 2 default to 1." expr="" />
+      <input type="text" name="Voting Options" friendlyname="Voting Options" narrative="Optional: A semicolon-delimited list of values. Example: “Cheese; Mushroom; Sausage; Combo; Veg Combo;”. " expr="&quot;Accepted;Reject&quot;" />
+      <input type="text" name="Vote Recipients" friendlyname="Vote Recipients" narrative="Optional: A semicolon-delimited list of email addresses that should receive the results of any votes." expr="&quot;shahnawaz.siddiqui2@outlook.com&quot;" />
+    </inputs>
+    <onsuccess>4497f17c-641b-45a8-9b7c-bc09870cc217</onsuccess>
+    <resource object="MS Outlook Email VBO" action="Send Email" />
+  </stage>
+  <stage stageid="5225520a-f775-44f5-9ec1-baf65d68dff1" name="Read/Unread" type="SubSheetInfo">
+    <subsheetid>4a0e263e-4896-47eb-992f-191010dd9b4a</subsheetid>
+    <display x="-585" y="-240" w="150" h="90" />
+  </stage>
+  <stage stageid="23d4a86d-7271-441d-b562-bdd470ce3cac" name="Start" type="Start">
+    <subsheetid>4a0e263e-4896-47eb-992f-191010dd9b4a</subsheetid>
+    <display x="-315" y="-240" />
+    <onsuccess>8d8d4ea9-1316-4d90-adef-22e55fa48d32</onsuccess>
+  </stage>
+  <stage stageid="767d89c4-e76b-4a95-ba6f-8b855c339f46" name="End" type="End">
+    <subsheetid>4a0e263e-4896-47eb-992f-191010dd9b4a</subsheetid>
+    <display x="-315" y="240" />
+  </stage>
+  <stage stageid="8d8d4ea9-1316-4d90-adef-22e55fa48d32" name="Utility - Environment::Start Process" type="Action">
+    <subsheetid>4a0e263e-4896-47eb-992f-191010dd9b4a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-315" y="-135" />
+    <inputs>
+      <input type="text" name="Application" friendlyname="Application" narrative="The application or short cut to start" expr="&quot;C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE&quot;" />
+      <input type="text" name="Arguments" friendlyname="Arguments" narrative="Any arguments needed for the app" expr="" />
+    </inputs>
+    <onsuccess>d73c0880-cae3-4e96-b2fd-f636868ec933</onsuccess>
+    <resource object="Utility - Environment" action="Start Process" />
+  </stage>
+  <stage stageid="d73c0880-cae3-4e96-b2fd-f636868ec933" name="MS Outlook Email VBO::Get Received Items (Basic)" type="Action">
+    <subsheetid>4a0e263e-4896-47eb-992f-191010dd9b4a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <loginhibitparameters />
+    <display x="-315" y="-60" />
+    <inputs>
+      <input type="text" name="Sub Folder" friendlyname="Sub Folder" narrative="Optional. Any alphanumeric value valid. The Subfolder in the Inbox, eg. Subfolder A needs to be declared as &quot;Subfolder A&quot;. A Nested Subfolder eg. Subfolder B in Subfolder A, needs to be declared as &quot;Subfolder A\Subfolder B&quot;." expr="" />
+      <input type="text" name="Account Display Name" friendlyname="Account Display Name" narrative="Optional. DisplayName of the email account. Default account is used if omitted." expr="" />
+      <input type="text" name="Shared Mailbox" friendlyname="Shared Mailbox" narrative="Optional. Share Mailbox name or email address. Attempt to call Shared Mailbox is only initiated when a value is supplied." expr="" />
+      <input type="flag" name="Prefer Plain Text Body" friendlyname="Prefer Plain Text Body" narrative="Optional, default False. Set to True to return plain-text Body. Set to False to return HTML Body." expr="" />
+      <input type="text" name="Sender Name" friendlyname="Sender Name" narrative="Optional. The From display name, which might be a name (eg John Smith) or email address (eg admin@client.com). Asterisk wildcard permitted, eg *John Smith* for any mail where the text 'John Smith' appears in the From field." expr="" />
+      <input type="text" name="Sender Email" friendlyname="Sender Email" narrative="Optional. The sender email address." expr="&quot;shahnawaz.siddiqui2@gmail.com&quot;" />
+      <input type="datetime" name="Received Earliest" friendlyname="Received Earliest" narrative="Optional. The earliest date to search from." expr="Today()" />
+      <input type="datetime" name="Received Latest" friendlyname="Received Latest" narrative="Optional. The latest date to search to." expr="" />
+      <input type="text" name="Subject" friendlyname="Subject" narrative="Optional. Asterisk wildcard permitted, eg *Project Update for 'Project Update', 'RE: Project Update' etc." expr="&quot;Closeout&quot;" />
+      <input type="text" name="Message" friendlyname="Message" narrative="Optional. Asterisk wildcard permitted, eg *Blue Prism*" expr="" />
+      <input type="flag" name="Include Read" friendlyname="Include Read" narrative="Optional, default True" expr="True" />
+      <input type="flag" name="Include Unread" friendlyname="Include Unread" narrative="Optional, default True" expr="False" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Items" friendlyname="Items" narrative="Details of items matching the filter" stage="Items" />
+      <output type="number" name="Item Count" friendlyname="Item Count" narrative="Number of items matching the filter" stage="Item Count" />
+      <output type="collection" name="Errors" friendlyname="Errors" narrative="Collection of any error messages that were captured while getting the list of mail items." stage="Errors" />
+    </outputs>
+    <onsuccess>db1479ba-2c4a-49bf-9433-e31b56808b69</onsuccess>
+    <resource object="MS Outlook Email VBO" action="Get Received Items (Basic)" />
+  </stage>
+  <stage stageid="ead9bf5d-c991-4923-ab4f-27a3e8c88975" name="Item Count" type="Data">
+    <subsheetid>4a0e263e-4896-47eb-992f-191010dd9b4a</subsheetid>
+    <display x="-585" y="-105" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="1d397521-3b37-4e51-9cbe-66762dab3692" name="Errors" type="Collection">
+    <subsheetid>4a0e263e-4896-47eb-992f-191010dd9b4a</subsheetid>
+    <display x="-585" y="-45" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="2700c402-b5f9-4cde-865a-f3ba801b88ee" name="Items" type="Collection">
+    <subsheetid>4a0e263e-4896-47eb-992f-191010dd9b4a</subsheetid>
+    <display x="-495" y="-75" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <field name="EntryID" type="text" description="The mail ID. NB this is different from the Mapiex ID." />
+      <field name="To" type="text" description="The display name of the recipient(s)" />
+      <field name="CC" type="text" description="The display name of the copied recipient(s)" />
+      <field name="Subject" type="text" description="The mail subject line" />
+      <field name="Body" type="text" description="The mail message" />
+      <field name="Attachments" type="text" description="The names of the attachements as a CSV string" />
+      <field name="ReceivedOn" type="datetime" description="The date an incoming mail was received" />
+      <field name="SentOn" type="datetime" description="The date an outgoing mail was sent" />
+      <field name="SenderName" type="text" description="The display name of the sender" />
+      <field name="SenderEmailAddress" type="text" description="The email of the sender" />
+      <field name="Unread" type="flag" description="True if an incoming mail has not been read, otherwise False" />
+      <field name="Sensitivity" type="number" description="Sensitivity of an email, from 0 to 3" />
+      <field name="Importance" type="number" description="Importance of an email, from 0 to 2" />
+      <field name="Flag" type="text" description="Flagged status of an email" />
+      <field name="IsHTML" type="flag" description="True if an email is in HTML" />
+    </collectioninfo>
+  </stage>
+  <stage stageid="db1479ba-2c4a-49bf-9433-e31b56808b69" name="MS Outlook Email VBO::Get Received Items (Basic)" type="Action">
+    <subsheetid>4a0e263e-4896-47eb-992f-191010dd9b4a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <loginhibitparameters />
+    <display x="-315" y="15" />
+    <inputs>
+      <input type="text" name="Sub Folder" friendlyname="Sub Folder" narrative="Optional. Any alphanumeric value valid. The Subfolder in the Inbox, eg. Subfolder A needs to be declared as &quot;Subfolder A&quot;. A Nested Subfolder eg. Subfolder B in Subfolder A, needs to be declared as &quot;Subfolder A\Subfolder B&quot;." expr="" />
+      <input type="text" name="Account Display Name" friendlyname="Account Display Name" narrative="Optional. DisplayName of the email account. Default account is used if omitted." expr="" />
+      <input type="text" name="Shared Mailbox" friendlyname="Shared Mailbox" narrative="Optional. Share Mailbox name or email address. Attempt to call Shared Mailbox is only initiated when a value is supplied." expr="" />
+      <input type="flag" name="Prefer Plain Text Body" friendlyname="Prefer Plain Text Body" narrative="Optional, default False. Set to True to return plain-text Body. Set to False to return HTML Body." expr="" />
+      <input type="text" name="Sender Name" friendlyname="Sender Name" narrative="Optional. The From display name, which might be a name (eg John Smith) or email address (eg admin@client.com). Asterisk wildcard permitted, eg *John Smith* for any mail where the text 'John Smith' appears in the From field." expr="" />
+      <input type="text" name="Sender Email" friendlyname="Sender Email" narrative="Optional. The sender email address." expr="" />
+      <input type="datetime" name="Received Earliest" friendlyname="Received Earliest" narrative="Optional. The earliest date to search from." expr="Today()" />
+      <input type="datetime" name="Received Latest" friendlyname="Received Latest" narrative="Optional. The latest date to search to." expr="" />
+      <input type="text" name="Subject" friendlyname="Subject" narrative="Optional. Asterisk wildcard permitted, eg *Project Update for 'Project Update', 'RE: Project Update' etc." expr="&quot;Closeout&quot;" />
+      <input type="text" name="Message" friendlyname="Message" narrative="Optional. Asterisk wildcard permitted, eg *Blue Prism*" expr="" />
+      <input type="flag" name="Include Read" friendlyname="Include Read" narrative="Optional, default True" expr="" />
+      <input type="flag" name="Include Unread" friendlyname="Include Unread" narrative="Optional, default True" expr="False" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Items" friendlyname="Items" narrative="Details of items matching the filter" stage="Items" />
+      <output type="number" name="Item Count" friendlyname="Item Count" narrative="Number of items matching the filter" stage="Item Count" />
+      <output type="collection" name="Errors" friendlyname="Errors" narrative="Collection of any error messages that were captured while getting the list of mail items." stage="Errors" />
+    </outputs>
+    <onsuccess>2d7aa9e2-61c7-403c-88dc-a8813e1f5706</onsuccess>
+    <resource object="MS Outlook Email VBO" action="Get Received Items (Basic)" />
+  </stage>
+  <stage stageid="2d7aa9e2-61c7-403c-88dc-a8813e1f5706" name="MS Outlook Email VBO::Save Attachment" type="Action">
+    <subsheetid>4a0e263e-4896-47eb-992f-191010dd9b4a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-315" y="105" />
+    <inputs>
+      <input type="text" name="Entry ID" friendlyname="Entry ID" narrative="Mandatory. An ID obtained from one of the Get Item actions in this object. NB not the same as a Mapiex ID." expr="[Items.EntryID]" />
+      <input type="text" name="Folder Path" friendlyname="Folder Path" narrative="Mandatory. The destination folder path for the attachments to be stored. Example &quot;C:\Temp&quot;." expr="&quot;D:\BluePrism Apps\attach&quot;" />
+      <input type="text" name="File Name" friendlyname="File Name" narrative="Optional, Default value is *.* but common cases inlcude &quot;.docx&quot; , &quot;.pdf&quot; , &quot;.xlsx&quot; etc." expr="" />
+    </inputs>
+    <onsuccess>cfb38177-d4de-4079-a90d-d1023277b524</onsuccess>
+    <resource object="MS Outlook Email VBO" action="Save Attachment" />
+  </stage>
+  <stage stageid="cfb38177-d4de-4079-a90d-d1023277b524" name="Utility - File Management::Move File" type="Action">
+    <subsheetid>4a0e263e-4896-47eb-992f-191010dd9b4a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-165" y="105" />
+    <inputs>
+      <input type="text" name="File Path" friendlyname="File Path" narrative="The full path to the file to move" expr="&quot;D:\BluePrism Apps\attach\close out.xlsx&quot;" />
+      <input type="text" name="Destination Path" friendlyname="Destination Path" narrative="The path to the folder to move the file to" expr="&quot;D:\BluePrism Apps\attach\Archived&quot;" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" friendlyname="Success" narrative="True if successful" stage="Success" />
+      <output type="text" name="Message" friendlyname="Message" narrative="An error message if unsuccessful" stage="Message" />
+    </outputs>
+    <onsuccess>767d89c4-e76b-4a95-ba6f-8b855c339f46</onsuccess>
+    <resource object="Utility - File Management" action="Move File" />
+  </stage>
+  <stage stageid="89f15dc3-0e57-4f52-9362-11b76855d033" name="Success" type="Data">
+    <subsheetid>4a0e263e-4896-47eb-992f-191010dd9b4a</subsheetid>
+    <display x="-510" y="-30" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="a8cfc0f5-7523-4b7e-a6e5-6b89e5ac75f8" name="Message" type="Data">
+    <subsheetid>4a0e263e-4896-47eb-992f-191010dd9b4a</subsheetid>
+    <display x="-555" y="45" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="ea4e8d62-0755-435a-b53b-bb22e8c5920d" name="Encryption::Encrypt Number" type="Action">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <loginhibit onsuccess="true" />
+    <narrative>Encrypts the given value using the specified scheme</narrative>
+    <display x="-60" y="-15" />
+    <inputs>
+      <input type="text" name="Encryption Scheme" friendlyname="Encryption Scheme" narrative="The name of the scheme which should encrypt the data." expr="&quot;Default Encryption Scheme&quot;" />
+      <input type="number" name="Plain Value" friendlyname="Plain Value" narrative="The Number value to be encrypted" expr="[Data.Policy Number]" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Encrypted Value" friendlyname="Encrypted Value" narrative="The encrypted value in text form" stage="Encrypted Value" />
+    </outputs>
+    <onsuccess>d92b2a75-52ee-42f4-9f66-f3801c44fc8c</onsuccess>
+    <resource object="EncryptionBusinessObject" action="Encrypt Number" />
+  </stage>
+  <stage stageid="b1cca0a1-3932-4540-83c0-8cf03d9c2fd9" name="Encrypted Value" type="Data">
+    <subsheetid>ecbe1d24-0d48-4a37-b7cc-7831130d386f</subsheetid>
+    <display x="-315" y="-60" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+</process>

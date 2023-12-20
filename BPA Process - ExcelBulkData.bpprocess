@@ -1,0 +1,72 @@
+﻿<process name="ExcelBulkData" version="1.0" bpversion="7.2.1.7446" narrative="" byrefcollection="true" processrunningmessage="" disableversioning="false" preferredid="e3186956-9f7c-4bbd-b1e5-8a144672dbb4">
+  <view>
+    <camerax>0</camerax>
+    <cameray>42</cameray>
+    <zoom version="2">1.25</zoom>
+  </view>
+  <preconditions />
+  <endpoint narrative="" />
+  <stage stageid="9a965bb5-be48-45a6-a378-cc6cb2ca56de" name="Start" type="Start">
+    <display x="15" y="-105" />
+    <onsuccess>dcc2aec6-add8-41ea-be3c-737872c72128</onsuccess>
+  </stage>
+  <stage stageid="6d7eca21-faad-40bc-927c-bdb9fb447840" name="End" type="End">
+    <display x="15" y="210" />
+  </stage>
+  <stage stageid="95c20ea3-afbd-47c3-90b5-44a98cfdb552" name="Stage1" type="ProcessInfo">
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="dcc2aec6-add8-41ea-be3c-737872c72128" name="MS Excel VBO::Create Instance" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-45" />
+    <inputs>
+      <input type="flag" name="Enable Events" friendlyname="Enable Events" narrative="Flag to indicate that events should be enabled / disabled on the attached instance - defaulted to True" expr="" />
+    </inputs>
+    <outputs>
+      <output type="number" name="handle" friendlyname="handle" narrative="An integer which can be used to identify the created instance in subsequent actions" stage="handle" />
+    </outputs>
+    <onsuccess>1578ffe7-ea6f-416c-8a71-0b52f04658d3</onsuccess>
+    <resource object="MS Excel VBO" action="Create Instance" />
+  </stage>
+  <stage stageid="02e46f94-b92d-4509-a1c9-41686ffb29e3" name="handle" type="Data">
+    <display x="-465" y="30" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="1578ffe7-ea6f-416c-8a71-0b52f04658d3" name="MS Excel VBO::Activate Workbook" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="15" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the workbook should be activated. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The workbook name identifying the workbook which should be activated - empty text indicates the currently active workbook, making this a no-op." expr="&quot;D:\BluePrism Apps\BulkData.xlsx&quot;" />
+    </inputs>
+    <onsuccess>8ffb3e94-5d93-410d-8af2-4c518a5f1959</onsuccess>
+    <resource object="MS Excel VBO" action="Activate Workbook" />
+  </stage>
+  <stage stageid="8ffb3e94-5d93-410d-8af2-4c518a5f1959" name="Data - OLEDB::Get Collection" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="75" />
+    <inputs>
+      <input type="text" name="SQL" friendlyname="SQL" narrative="An SQL query to fetch the data. In most cases this will be a 'select' query." expr="" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Results" friendlyname="Results" stage="Results" />
+    </outputs>
+    <onsuccess>1960c3df-6b68-4f86-9619-82fd1bb8a4a0</onsuccess>
+    <resource object="Data - OLEDB" action="Get Collection" />
+  </stage>
+  <stage stageid="8e0b5640-bb54-4e12-aab3-31d411153ba5" name="Results" type="Collection">
+    <display x="-420" y="120" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="1960c3df-6b68-4f86-9619-82fd1bb8a4a0" name="Data - OLEDB::Close" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="135" />
+    <onsuccess>6d7eca21-faad-40bc-927c-bdb9fb447840</onsuccess>
+    <resource object="Data - OLEDB" action="Close" />
+  </stage>
+</process>

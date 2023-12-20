@@ -1,0 +1,61 @@
+﻿<process name="Encryption" version="1.0" bpversion="7.2.1.7446" narrative="" byrefcollection="true" processrunningmessage="" disableversioning="false" preferredid="fa7b08ce-0c22-4af9-9de6-d4f6630481fb">
+  <view>
+    <camerax>0</camerax>
+    <cameray>0</cameray>
+    <zoom version="2">1.25</zoom>
+  </view>
+  <preconditions />
+  <endpoint narrative="" />
+  <stage stageid="ce2ecfd9-96aa-4300-a58b-31da1f4f65c4" name="Start" type="Start">
+    <display x="15" y="-105" />
+    <onsuccess>6fb5c633-17b1-4b28-99a8-b48992757f9f</onsuccess>
+  </stage>
+  <stage stageid="3f09b937-634d-4def-b6cb-450c3eb5967e" name="End" type="End">
+    <display x="15" y="150" />
+  </stage>
+  <stage stageid="6fee0d1a-8a33-4603-a4f8-116df7fe2963" name="Stage1" type="ProcessInfo">
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="6fb5c633-17b1-4b28-99a8-b48992757f9f" name="Encryption::Encrypt Text" type="Action">
+    <loginhibit onsuccess="true" />
+    <narrative>Encrypts the given value using the specified scheme</narrative>
+    <display x="15" y="-15" />
+    <inputs>
+      <input type="text" name="Encryption Scheme" friendlyname="Encryption Scheme" narrative="The name of the scheme which should encrypt the data." expr="&quot;Default Encryption Scheme&quot;" />
+      <input type="text" name="Plain Value" friendlyname="Plain Value" narrative="The Text value to be encrypted" expr="&quot;This is my Text&quot;" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Encrypted Value" friendlyname="Encrypted Value" narrative="The encrypted value in text form" stage="Encrypted Value" />
+    </outputs>
+    <onsuccess>fcab6c7d-d558-4620-940e-ab5836cbbdc3</onsuccess>
+    <resource object="EncryptionBusinessObject" action="Encrypt Text" />
+  </stage>
+  <stage stageid="1fef718f-309b-4cfd-88e0-2175bf3e360d" name="Encrypted Value" type="Data">
+    <display x="345" y="-45" w="270" h="120" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="fcab6c7d-d558-4620-940e-ab5836cbbdc3" name="Encryption::Decrypt Text" type="Action">
+    <loginhibit onsuccess="true" />
+    <narrative>Decrypts the given value into a Text data item using the specified scheme</narrative>
+    <display x="15" y="60" />
+    <inputs>
+      <input type="text" name="Encryption Scheme" friendlyname="Encryption Scheme" narrative="The name of the scheme which should decrypt the data." expr="&quot;Default Encryption Scheme&quot;" />
+      <input type="text" name="Encrypted Value" friendlyname="Encrypted Value" narrative="The encrypted data to be decrypted into a Text data item" expr="[Encrypted Value]" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Plain Value" friendlyname="Plain Value" narrative="The decrypted Text value" stage="Plain Value" />
+    </outputs>
+    <onsuccess>3f09b937-634d-4def-b6cb-450c3eb5967e</onsuccess>
+    <resource object="EncryptionBusinessObject" action="Decrypt Text" />
+  </stage>
+  <stage stageid="b9963553-90e8-4d36-b1a9-7042f1fbb6b2" name="Plain Value" type="Data">
+    <display x="-135" y="75" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+</process>
